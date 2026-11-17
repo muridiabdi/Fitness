@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f6f2">
+    <meta name="description" content="A simple workout, nutrition, and progress tracker.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Form & Fuel">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <title>Form & Fuel — Fitness tracker</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Main navigation">
+        <a class="brand" href="#" aria-label="Form and Fuel home">
+          <span class="brand-mark" aria-hidden="true">F<span>+</span></span>
+          <span class="brand-copy">form<span>&</span>fuel</span>
+        </a>
+        <div class="sidebar-label">YOUR SPACE</div>
+        <nav class="side-nav">
+          <button class="nav-link active" type="button" data-page="workout">
+            <span class="nav-icon" aria-hidden="true">↗</span><span>Workout</span>
+          </button>
+          <button class="nav-link" type="button" data-page="food">
+            <span class="nav-icon" aria-hidden="true">◉</span><span>Food</span>
+          </button>
+          <button class="nav-link" type="button" data-page="progress">
+            <span class="nav-icon" aria-hidden="true">⌁</span><span>Progress</span>
+          </button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="profile-mini">
+            <div class="profile-avatar" aria-hidden="true">F+</div>
+            <div><strong>Your tracker</strong><span>Personal progress</span></div>
+          </div>
+          <button class="text-button backup-button" type="button">↓ <span>Download backup</span></button>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="mobile-brand">
+            <span class="brand-mark" aria-hidden="true">F<span>+</span></span>
+            <span class="brand-copy">form<span>&</span>fuel</span>
+          </div>
+          <div class="topbar-date">
+            <label for="active-date">YOUR DAY</label>
+            <input id="active-date" type="date">
+          </div>
+          <button id="install-app" class="install-app-button" type="button"><span aria-hidden="true">↓</span><span>Install app</span></button>
+          <button class="icon-button mobile-backup" type="button" aria-label="Download data backup" title="Download backup">↓</button>
+        </header>
+
+        <section class="page active" id="page-workout" aria-labelledby="page-title-workout">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">SHOW UP. GET STRONGER.</p>
+              <h1 id="page-title-workout">Your workout</h1>
+              <p class="page-subtitle">A little stronger than last time.</p>
+            </div>
+            <span class="heading-stamp" aria-hidden="true">01 / 03</span>
+          </div>
+
+          <section class="panel plan-panel workout-plan-panel" aria-labelledby="workout-plan-title">
+            <div class="plan-topline">
+              <div><span class="section-kicker">BUILT AROUND YOUR WEEK</span><h2 id="workout-plan-title">Your 4-week training plan</h2></div>
+              <div class="plan-controls">
+                <label class="sr-only" for="workout-plan-week">Training plan week</label>
+                <select id="workout-plan-week" class="week-select" aria-label="Training plan week"></select>
+                <label class="sr-only" for="plan-start-date">Plan start date</label>
+                <input id="plan-start-date" class="plan-date-input" type="date" aria-label="Plan start date">
+              </div>
+            </div>
+            <div id="workout-week-summary" class="week-summary"></div>
+            <div id="workout-adjustment" class="workout-adjustment" hidden></div>
+            <div id="workout-plan-list" class="workout-plan-list"></div>
+            <p class="plan-safety-note"><strong>Movement rule:</strong> use a comfortable range, never force a stretch or painful rep. Stop an exercise that causes pain; get advice from a qualified clinician if pain persists or worsens.</p>
+          </section>
+
+          <div class="workout-layout">
+            <section class="panel workout-form-panel" aria-labelledby="add-exercise-title">
+              <div class="panel-heading">
+                <div><span class="section-kicker">TRAINING LOG</span><h2 id="add-exercise-title">Add an exercise</h2></div>
+                <span class="panel-icon" aria-hidden="true">＋</span>
+              </div>
+              <form id="exercise-form">
+                <label class="field-label" for="exercise-name">Exercise name</label>
+                <input id="exercise-name" name="name" type="text" placeholder="e.g. Barbell squat" maxlength="60" required>
+                <div class="sets-heading"><span class="field-label">SETS</span><span class="field-label">REPS</span><span class="field-label">WEIGHT (KG)</span><span></span></div>
+                <div id="set-rows" class="set-rows"></div>
+                <button id="add-set" class="add-set-button" type="button">＋ Add a set</button>
+                <button class="primary-button full-button" type="submit">Save exercise <span aria-hidden="true">↗</span></button>
+              </form>
+            </section>
+
+            <section class="panel exercise-log-panel" aria-labelledby="exercise-log-title">
+              <div class="panel-heading log-heading">
+                <div><span class="section-kicker">TODAY'S SESSION</span><h2 id="exercise-log-title">Your exercises</h2></div>
+                <span class="count-pill" id="exercise-count">0 exercises</span>
+              </div>
+              <div id="exercise-list" class="exercise-list"></div>
+              <div id="empty-exercises" class="empty-state">
+                <span class="empty-icon" aria-hidden="true">↗</span>
+                <strong>Your first set starts here</strong>
+                <p>Add an exercise to start your session.</p>
+              </div>
+            </section>
+          </div>
+          <div class="training-note"><span aria-hidden="true">✳</span> Leave room to rest and recover between sessions; choose weights that let you keep good form.</div>
+        </section>
+
+        <section class="page" id="page-food" aria-labelledby="page-title-food" hidden>
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">FUEL YOUR TRAINING</p>
+              <h1 id="page-title-food">Food & fuel</h1>
+              <p class="page-subtitle">Progress, not perfection. Log what you eat.</p>
+            </div>
+            <span class="heading-stamp" aria-hidden="true">02 / 03</span>
+          </div>
+
+          <section class="panel targets-panel" aria-labelledby="targets-title">
+            <div class="targets-topline">
+              <div><span class="section-kicker">YOUR DAILY TARGETS</span><h2 id="targets-title">A little closer each day</h2></div>
+              <button id="edit-targets" class="text-button edit-targets-button" type="button">Edit targets <span aria-hidden="true">↗</span></button>
+            </div>
+            <div class="target-grid">
+              <div class="target-card calories-card">
+                <div class="target-label"><span class="target-dot"></span> CALORIES</div>
+                <div class="target-numbers"><strong id="calories-current">0</strong><span> / <span id="calories-target">2,200</span> kcal</span></div>
+                <div class="progress-track"><div id="calories-progress" class="progress-fill calorie-fill"></div></div>
+                <p id="calories-remaining" class="target-footnote">2,200 kcal to go</p>
+              </div>
+              <div class="target-card protein-card">
+                <div class="target-label"><span class="target-dot"></span> PROTEIN</div>
+                <div class="target-numbers"><strong id="protein-current">0</strong><span> / <span id="protein-target">150</span> g</span></div>
+                <div class="progress-track"><div id="protein-progress" class="progress-fill protein-fill"></div></div>
+                <p id="protein-remaining" class="target-footnote">150 g to go</p>
+              </div>
+            </div>
+            <p class="estimate-note">Starting estimates for fat loss and muscle support — adjust to suit your needs.</p>
+          </section>
+
+          <section class="panel plan-panel meal-plan-panel" aria-labelledby="meal-plan-title">
+            <div class="plan-topline">
+              <div><span class="section-kicker">PROTEIN-FORWARD · EASY PREP · FLEXIBLE</span><h2 id="meal-plan-title">Your 4-week meal plan</h2></div>
+              <label class="plan-select-wrap"><span class="sr-only">Meal plan week</span><select id="food-plan-week" class="week-select" aria-label="Meal plan week"></select></label>
+            </div>
+            <div id="food-week-summary" class="week-summary"></div>
+            <div id="meal-plan-list" class="meal-plan-list"></div>
+            <section class="grocery-section" aria-labelledby="grocery-title">
+              <div class="grocery-heading"><div><span class="section-kicker">SHOP ONCE, EAT WELL</span><h3 id="grocery-title">Week's grocery list</h3></div><span class="grocery-caption">Simple UK supermarket ingredients</span></div>
+              <div id="grocery-list" class="grocery-list"></div>
+            </section>
+          </section>
+
+          <div class="food-layout">
+            <section class="panel meal-form-panel" aria-labelledby="meal-form-title">
+              <div class="panel-heading"><div><span class="section-kicker">FOOD DIARY</span><h2 id="meal-form-title">Log a meal</h2></div></div>
+              <form id="meal-form">
+                <label class="field-label" for="meal-name">Meal or food</label>
+                <input id="meal-name" name="name" type="text" placeholder="e.g. Chicken & rice" maxlength="80" required>
+                <div class="form-two-col">
+                  <div><label class="field-label" for="meal-calories">Calories</label><div class="input-suffix"><input id="meal-calories" name="calories" type="number" min="0" max="20000" step="1" placeholder="520" required><span>kcal</span></div></div>
+                  <div><label class="field-label" for="meal-protein">Protein</label><div class="input-suffix"><input id="meal-protein" name="protein" type="number" min="0" max="1000" step="0.1" placeholder="38" required><span>g</span></div></div>
+                </div>
+                <label class="field-label" for="meal-type">Meal</label>
+                <select id="meal-type" name="type">
+                  <option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option>
+                </select>
+                <button class="primary-button full-button" type="submit">Add to diary <span aria-hidden="true">↗</span></button>
+              </form>
+            </section>
+            <section class="panel meals-panel" aria-labelledby="meals-title">
+              <div class="panel-heading log-heading"><div><span class="section-kicker">ON THE MENU</span><h2 id="meals-title">Today's meals</h2></div><span id="meal-count" class="count-pill">0 meals</span></div>
+              <div id="meal-list" class="meal-list"></div>
+              <div id="empty-meals" class="empty-state">
+                <span class="empty-icon" aria-hidden="true">◉</span>
+                <strong>Nothing logged just yet</strong>
+                <p>Add a meal and your daily totals will update.</p>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="page-progress" aria-labelledby="page-title-progress" hidden>
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">THE BIG PICTURE</p>
+              <h1 id="page-title-progress">Your progress</h1>
+              <p class="page-subtitle">Focus on the trend, not the day-to-day.</p>
+            </div>
+            <span class="heading-stamp" aria-hidden="true">03 / 03</span>
+          </div>
+          <section class="panel checkin-panel" aria-labelledby="checkin-title">
+            <div class="panel-heading checkin-heading">
+              <div><span class="section-kicker">WEEKLY COACHING CHECK-IN</span><h2 id="checkin-title">Tell me how the week went</h2></div>
+              <label class="checkin-week-wrap"><span class="sr-only">Check-in week</span><select id="checkin-week" class="week-select" aria-label="Check-in week"></select></label>
+            </div>
+            <p class="checkin-intro">Your answers shape the next week's calorie target and training guidance. Use a weekly average weight if you have one.</p>
+            <form id="checkin-form" class="checkin-form">
+              <div class="checkin-fields">
+                <div><label class="field-label" for="checkin-weight">Average weight</label><div class="input-suffix"><input id="checkin-weight" name="weight" type="number" min="20" max="400" step="0.1" placeholder="Enter weekly average" required><span>kg</span></div></div>
+                <div><label class="field-label" for="checkin-sessions">Gym sessions done</label><select id="checkin-sessions" name="sessions"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                <div><label class="field-label" for="checkin-adherence">Days near food targets</label><select id="checkin-adherence" name="adherence"><option value="0">0 of 7</option><option value="1">1 of 7</option><option value="2">2 of 7</option><option value="3">3 of 7</option><option value="4">4 of 7</option><option value="5">5 of 7</option><option value="6">6 of 7</option><option value="7">7 of 7</option></select></div>
+                <div><label class="field-label" for="checkin-energy">Energy (1 low – 5 great)</label><select id="checkin-energy" name="energy"><option value="1">1 · Very low</option><option value="2">2 · Low</option><option value="3" selected>3 · Okay</option><option value="4">4 · Good</option><option value="5">5 · Great</option></select></div>
+                <div><label class="field-label" for="checkin-hunger">Hunger (1 low – 5 high)</label><select id="checkin-hunger" name="hunger"><option value="1">1 · Low</option><option value="2">2 · Mild</option><option value="3" selected>3 · Manageable</option><option value="4">4 · High</option><option value="5">5 · Very high</option></select></div>
+                <div><label class="field-label" for="checkin-joint">Joint discomfort (0–10)</label><select id="checkin-joint" name="joint"><option value="0">0 · None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10 · Severe</option></select></div>
+              </div>
+              <button class="primary-button" type="submit">Save check-in <span aria-hidden="true">↗</span></button>
+            </form>
+            <div id="checkin-feedback" class="checkin-feedback" aria-live="polite"></div>
+          </section>
+          <section class="panel weight-entry-panel" aria-labelledby="weight-entry-title">
+            <div class="panel-heading"><div><span class="section-kicker">BODY WEIGHT</span><h2 id="weight-entry-title">Log a weigh-in</h2></div><span class="panel-icon" aria-hidden="true">＋</span></div>
+            <form id="weight-form" class="weight-form">
+              <div><label class="field-label" for="weight-value">Weight</label><div class="input-suffix"><input id="weight-value" name="weight" type="number" min="20" max="400" step="0.1" required><span>kg</span></div></div>
+              <button class="primary-button" type="submit">Save weight <span aria-hidden="true">↗</span></button>
+            </form>
+          </section>
+          <section class="panel chart-panel" aria-labelledby="chart-title">
+            <div class="chart-heading">
+              <div><span class="section-kicker">OVER TIME</span><h2 id="chart-title">Weight trend</h2></div>
+              <div class="weight-summary"><strong id="latest-weight">—</strong><span>kg latest</span></div>
+            </div>
+            <div class="chart-wrap" id="weight-chart" role="img" aria-label="Weight history chart"></div>
+            <div class="chart-legend"><span class="legend-dot"></span> Body weight <span class="chart-range" id="chart-range"></span></div>
+          </section>
+          <section class="panel weigh-ins-panel" aria-labelledby="weigh-ins-title">
+            <div class="panel-heading log-heading"><div><span class="section-kicker">YOUR HISTORY</span><h2 id="weigh-ins-title">Recent weigh-ins</h2></div><span id="weigh-in-count" class="count-pill">1 entry</span></div>
+            <div id="weigh-in-list" class="weigh-in-list"></div>
+          </section>
+        </section>
+
+        <footer class="app-footer"><span>Your data stays on this device.</span><button class="text-button footer-backup" type="button">Download a backup</button></footer>
+      </main>
+    </div>
+
+    <nav class="mobile-nav" aria-label="Main navigation">
+      <button class="nav-link active" type="button" data-page="workout"><span class="nav-icon" aria-hidden="true">↗</span><span>Workout</span></button>
+      <button class="nav-link" type="button" data-page="food"><span class="nav-icon" aria-hidden="true">◉</span><span>Food</span></button>
+      <button class="nav-link" type="button" data-page="progress"><span class="nav-icon" aria-hidden="true">⌁</span><span>Progress</span></button>
+    </nav>
+
+    <dialog id="targets-dialog" class="targets-dialog">
+      <form id="targets-form" method="dialog">
+        <div class="dialog-heading"><div><span class="section-kicker">YOUR DAILY TARGETS</span><h2>Make them yours</h2></div><button class="icon-button close-dialog" type="button" aria-label="Close">×</button></div>
+        <p>These are adjustable starting estimates. Your calorie needs can vary with age, sex, and activity level.</p>
+        <label class="field-label" for="target-calories">Calorie target</label>
+        <div class="input-suffix"><input id="target-calories" type="number" min="500" max="10000" step="50" required><span>kcal / day</span></div>
+        <label class="field-label" for="target-protein">Protein target</label>
+        <div class="input-suffix"><input id="target-protein" type="number" min="20" max="500" step="5" required><span>g / day</span></div>
+        <div class="dialog-actions"><button class="secondary-button close-dialog" type="button">Cancel</button><button class="primary-button" type="submit">Save targets <span aria-hidden="true">↗</span></button></div>
+      </form>
+    </dialog>
+    <dialog id="install-dialog" class="targets-dialog install-dialog">
+      <div class="dialog-heading"><div><span class="section-kicker">TAKE IT WITH YOU</span><h2>Install Form & Fuel</h2></div><button class="icon-button close-install-dialog" type="button" aria-label="Close">×</button></div>
+      <p>Install from a secure website address (HTTPS). Opening the project as a local file does not support home-screen installation or offline caching.</p>
+      <div class="install-steps">
+        <p><strong>iPhone or iPad</strong><br>Open this page in Safari, tap Share, then choose <em>Add to Home Screen</em>.</p>
+        <p><strong>Android</strong><br>Open this page in Chrome and choose <em>Install app</em> or <em>Add to Home screen</em> from the menu.</p>
+      </div>
+      <p class="install-data-note">Your logs are stored in this browser on this device. Download a backup before clearing site data or changing devices.</p>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script src="plan-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
